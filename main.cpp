@@ -4,10 +4,10 @@
 #include <boost/program_options.hpp>
 #include "include/Websocket.h"
 
-namespace net = boost::asio;
+namespace asio = boost::asio;
 namespace po = boost::program_options;
 
-void onMessage(const void* message, size_t size) {
+void on_message(const void* message, size_t size) {
     std::cout << (char*) message << std::endl;
 }
 
@@ -30,13 +30,13 @@ int main(int argc, char **argv) {
 
 
     // The io_context is required for all I/O
-    net::io_context ioc;
+    asio::io_context ioc;
 
     // Launch the asynchronous operation
-    std::shared_ptr<Websocket::Session> socket = std::make_shared<Websocket::Session>(ioc);
-    socket->run(host.c_str(), std::to_string(port).c_str(), text.c_str());
+    std::shared_ptr<Websocket::Session> websocket = std::make_shared<Websocket::Session>(ioc);
+    websocket->run(host.c_str(), std::to_string(port).c_str(), text.c_str());
 
-    socket->onMessage(onMessage);
+    websocket->on_message(on_message);
 
     // Run the I/O service. The call will return when
     // the socket is closed.

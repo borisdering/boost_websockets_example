@@ -35,23 +35,22 @@ namespace Websocket {
 
         std::function<void(const void*, size_t size)> m_onMessageCallback;
 
-        void onResolve(beast::error_code ec, tcp::resolver::results_type results);
+        void on_resolve(beast::error_code ec, tcp::resolver::results_type results);
 
-        void onConnect(beast::error_code ec, tcp::resolver::results_type::endpoint_type ep);
+        void on_connect(beast::error_code ec, tcp::resolver::results_type::endpoint_type ep);
 
-        void onHandshake(beast::error_code ec);
+        void on_handshake(beast::error_code ec);
 
-        void onWrite(beast::error_code ec, std::size_t bytes_transferred);
+        void on_write(beast::error_code ec, std::size_t bytes_transferred);
 
-        void onRead(beast::error_code ec, std::size_t bytes_transferred);
+        void on_read(beast::error_code ec, std::size_t bytes_transferred);
 
-        void onClose(beast::error_code ec);
+        void on_close(beast::error_code ec);
 
     public:
         // Resolver and socket require an io_context
         explicit Session(net::io_context& ioc);
 
-        // Start the asynchronous operation
         /**
          * Run actual websocket.
          * @param host
@@ -64,7 +63,7 @@ namespace Websocket {
          * Register on message callback.
          * @param callback
          */
-        void onMessage(const std::function<void(const void*, size_t)> callback);
+        void on_message(const std::function<void(const void*, size_t)> callback);
 
         /**
          * Send message over websockets.
