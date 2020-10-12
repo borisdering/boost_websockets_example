@@ -34,8 +34,8 @@ void Websocket::Session::run(const char *host, const char *port, const char *tex
     m_resolver.async_resolve(host, port, beast::bind_front_handler(&Websocket::Session::on_resolve, shared_from_this()));
 }
 
-void Websocket::Session::on_message(const std::function<void(const void*, size_t)> callback) {
-    m_onMessageCallback = callback;
+void Websocket::Session::on_message(const std::function<void(const void*, const void*, size_t)> callback) {
+    m_onmessage_callback = callback;
 }
 
 void Websocket::Session::send(const char* message, size_t length) {
@@ -122,8 +122,8 @@ void Websocket::Session::on_read(beast::error_code ec, std::size_t bytes_transfe
     size_t size = m_buffer.size();
     m_buffer.consume(bytes_transferred);
 
-    if (m_onMessageCallback)
-        m_onMessageCallback(message, bytes_transferred);
+    if (m_onmessage_callback)
+        m_onmessage_callback(this, message, bytes_transferred);
 
     // read the actual message and notify subscribers
     m_ws.async_read(m_buffer, beast::bind_front_handler(&Websocket::Session::on_read, shared_from_this()));

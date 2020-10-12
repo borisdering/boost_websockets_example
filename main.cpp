@@ -7,7 +7,7 @@
 namespace asio = boost::asio;
 namespace po = boost::program_options;
 
-void on_message(const void* message, size_t size) {
+void on_message(const void* session, const void* message, size_t size) {
     std::cout << (char*) message << std::endl;
 }
 

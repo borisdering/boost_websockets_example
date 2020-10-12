@@ -33,7 +33,7 @@ namespace Websocket {
         std::string m_host;
         std::string m_text;
 
-        std::function<void(const void*, size_t size)> m_onMessageCallback;
+        std::function<void(const void *, const void*, size_t size)> m_onmessage_callback;
 
         void on_resolve(beast::error_code ec, tcp::resolver::results_type results);
 
@@ -63,7 +63,7 @@ namespace Websocket {
          * Register on message callback.
          * @param callback
          */
-        void on_message(const std::function<void(const void*, size_t)> callback);
+        void on_message(const std::function<void(const void*, const void*, size_t)> callback);
 
         /**
          * Send message over websockets.
